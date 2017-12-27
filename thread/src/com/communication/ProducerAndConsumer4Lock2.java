@@ -7,16 +7,16 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * 多生产者-多消费者
  */
-public class ProducerAndConsumer4Lock {
+public class ProducerAndConsumer4Lock2 {
 
 	public static void main(String[] args) {
 		ProductsLock2 product = new ProductsLock2();
 
-		ProducersLock2 producer1 = new ProducersLock2(product);
-		ProducersLock2 producer2 = new ProducersLock2(product);
+		ProducersLock producer1 = new ProducersLock(product);
+		ProducersLock producer2 = new ProducersLock(product);
 
-		ConsumersLock consumer1 = new ConsumersLock(product);
-		ConsumersLock consumer2 = new ConsumersLock(product);
+		ConsumersLock2 consumer1 = new ConsumersLock2(product);
+		ConsumersLock2 consumer2 = new ConsumersLock2(product);
 
 		new Thread(producer1).start();
 		new Thread(producer2).start();
@@ -27,7 +27,7 @@ public class ProducerAndConsumer4Lock {
 	}
 }
 
-class ProductsLock {
+class ProductsLock2 {
 	// 产品名称
 	private String name;
 	// 产品编号
@@ -38,7 +38,8 @@ class ProductsLock {
 	// 显示锁
 	private Lock lock = new ReentrantLock();
 	// 获取锁上的Condition对象
-	Condition con = lock.newCondition();
+	Condition produter = lock.newCondition();
+	Condition consume = lock.newCondition();
 
 	public void set(String name) {
 
@@ -49,7 +50,7 @@ class ProductsLock {
 			while (flag) {
 				try {
 					// this.wait();
-					con.await();
+					produter.await();
 				} catch (InterruptedException e) {
 				}
 			}
@@ -60,7 +61,8 @@ class ProductsLock {
 
 			flag = true;
 			// this.notifyAll();
-			con.signalAll();
+			// 执行消费者唤醒,唤醒一个消费者
+			consume.signal();
 		} finally {
 			// 释放锁
 			lock.unlock();
@@ -76,14 +78,14 @@ class ProductsLock {
 			while (!flag) {
 				try {
 					// this.wait();
-					con.await();
+					consume.await();
 				} catch (InterruptedException e) {
 				}
 			}
 			System.err.println(Thread.currentThread().getName() + " 消费了" + this.name);
 			flag = false;
 			// this.notifyAll();
-			con.signalAll();
+			produter.signal();
 		} finally {
 			lock.unlock();
 		}
@@ -91,11 +93,11 @@ class ProductsLock {
 	}
 }
 
-class ProducersLock implements Runnable {
+class ProducersLock2 implements Runnable {
 
 	private ProductsLock2 product;
 
-	public ProducersLock(ProductsLock2 product) {
+	public ProducersLock2(ProductsLock2 product) {
 		this.product = product;
 	}
 
@@ -113,11 +115,11 @@ class ProducersLock implements Runnable {
 
 }
 
-class ConsumersLock implements Runnable {
+class ConsumersLock2 implements Runnable {
 
 	private ProductsLock2 product;
 
-	public ConsumersLock(ProductsLock2 product) {
+	public ConsumersLock2(ProductsLock2 product) {
 		this.product = product;
 	}
 
