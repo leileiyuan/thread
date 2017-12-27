@@ -1,5 +1,6 @@
 package com.communication;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,16 +37,19 @@ class ProductsLock {
 
 	// 显示锁
 	private Lock lock = new ReentrantLock();
+	// 获取锁上的Condition对象
+	Condition con = lock.newCondition();
 
 	public void set(String name) {
 
 		// 加锁
-		lock.unlock();
+		lock.lock();
 
 		try {
 			while (flag) {
 				try {
-					wait();
+					// this.wait();
+					con.await();
 				} catch (InterruptedException e) {
 				}
 			}
@@ -55,29 +59,33 @@ class ProductsLock {
 			System.err.println(Thread.currentThread().getName() + " 生产了      " + this.name);
 
 			flag = true;
-			notifyAll();
+			// this.notifyAll();
+			con.signalAll();
 		} finally {
-			lock.lock();
+			// 释放锁
+			lock.unlock();
 		}
 
 	}
 
 	public void out() {
 
-		lock.unlock();
+		lock.lock();
 
 		try {
 			while (!flag) {
 				try {
-					wait();
+					// this.wait();
+					con.await();
 				} catch (InterruptedException e) {
 				}
 			}
 			System.err.println(Thread.currentThread().getName() + " 消费了" + this.name);
 			flag = false;
-			notifyAll();
+			// this.notifyAll();
+			con.signalAll();
 		} finally {
-			lock.lock();
+			lock.unlock();
 		}
 
 	}
