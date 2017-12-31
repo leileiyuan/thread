@@ -16,7 +16,11 @@ public class InterruptThreadDemo {
 		while (true) {
 			if (++x == 50) {
 
+				// t1线程对象 进行中断 状态的清除，强制让其恢复到运行 状态
+				// 因为是强制性的，所以有异常发生，可以再catch捕获异常，在异常处理中，改变 标记，让循环结束，让线程正常结束。。
 				t1.interrupt();
+				
+				
 				t2.interrupt();
 
 				break;
