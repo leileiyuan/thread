@@ -1,5 +1,8 @@
 package com.thread;
 
+/**
+ * 单例
+ */
 public class SinglePattern {
 
 	public static void main(String[] args) {

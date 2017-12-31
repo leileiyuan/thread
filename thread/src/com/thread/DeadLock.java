@@ -1,5 +1,8 @@
 package com.thread;
 
+/**
+ * 死锁
+ */
 public class DeadLock {
 	public static void main(String[] args) {
 		DeadLockThread target = new DeadLockThread();
