@@ -1,4 +1,4 @@
-package com.volatilekey;
+package com.volatileKeyWord;
 
 /**
  * 运行结果是 flag:true ，main中的 while循环 未结束，td.isFlag()的返回值为false 线程中的共享变量flag

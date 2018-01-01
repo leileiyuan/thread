@@ -1,4 +1,4 @@
-package com.volatilekey;
+package com.volatileKeyWord;
 
 public class VolatileDemo2 {
 	public static void main(String[] args) {
