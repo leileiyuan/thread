@@ -8,6 +8,7 @@ public class SyncDouble1 {
 	public synchronized void methoh1() {
 		System.err.println(" method1");
 		methoh2();
+		System.err.println(" method1 end");
 	}
 
 	public synchronized void methoh2() {
