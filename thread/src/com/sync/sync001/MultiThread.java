@@ -1,4 +1,4 @@
-package com.base.sync001;
+package com.sync.sync001;
 
 /**
  * 多个线程去操作共享数据，会引发线程安全问题， 对run方法作同步即可解决，

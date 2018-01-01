@@ -1,4 +1,4 @@
-package com.base.sync003;
+package com.sync.sync003;
 
 /**
  * 同步和异步

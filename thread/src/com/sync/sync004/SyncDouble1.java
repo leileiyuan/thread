@@ -1,4 +1,4 @@
-package com.base.sync004;
+package com.sync.sync004;
 
 /**
  * 重入锁 

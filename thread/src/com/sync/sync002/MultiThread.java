@@ -1,4 +1,4 @@
-package com.base.sync002;
+package com.sync.sync002;
 
 public class MultiThread {
 
